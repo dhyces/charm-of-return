@@ -32,8 +32,8 @@ public class ForgeCharmOfReturn {
         ForgeConfigSpec.Builder spec = new ForgeConfigSpec.Builder()
                 .push("Common");
         CONFIG.levelCost = spec.comment("Levels required to use (can input an equation with current level as 'x')").define("levelCost", "0.8x");
-        CONFIG.durability = spec.comment("Durability of the ring").defineInRange("durability", () -> 0, 0, Integer.MAX_VALUE);
-        CONFIG.chargeTime = spec.comment("Number of ticks it takes to use the ring").defineInRange("chargeTicks", () -> 200, 0, Integer.MAX_VALUE);
+        CONFIG.durability = spec.comment("Durability of the charm").defineInRange("durability", () -> 0, 0, Integer.MAX_VALUE);
+        CONFIG.chargeTime = spec.comment("Number of ticks it takes to use the charm").defineInRange("chargeTicks", () -> 200, 0, Integer.MAX_VALUE);
         CONFIG.cooldownTime = spec.comment("Number of ticks for the cooldown").defineInRange("cooldownTicks", () -> 1200, 0, Integer.MAX_VALUE);
         CONFIG.isClientParticles = spec.comment("If warp particles are only visible on the user's client. Default is false").define("clientOnlyParticles", false);
         spec.pop();
