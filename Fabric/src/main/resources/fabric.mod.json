@@ -1,17 +1,18 @@
 {
     "schemaVersion": 1,
-    "id": "ringofreturn",
+    "id": "charmofreturn",
     "version": "${version}",
   
-    "name": "Ring of Return",
-    "description": "Magic mirror, but it's a ring. Return to spawn point!",
+    "name": "Charm of Return",
+    "description": "Magic mirror, but it's a charm. Return to spawn point!",
     "authors": [
       "Dhyces"
     ],
-    "contact": {
-      "homepage": "https://fabricmc.net/",
-      "sources": "https://github.com/FabricMC/fabric-example-mod"
-    },
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/charm-of-return",
+    "sources": "https://github.com/dhyces/charm-of-return",
+    "issues": "https://github.com/dhyces/charm-of-return/issues"
+  },
   
     "license": "MIT",
     "icon": "icon.png",
@@ -19,20 +20,20 @@
     "environment": "*",
     "entrypoints": {
       "main": [
-        "dhyces.ringofreturn.FabricRingOfReturn"
+        "dhyces.charmofreturn.FabricCharmOfReturn"
       ],
       "client": [
-        "dhyces.ringofreturn.FabricRingOfReturnClient"
+        "dhyces.charmofreturn.FabricCharmOfReturnClient"
       ],
       "fabric-datagen": [
-        "dhyces.ringofreturn.FabricRingOfReturnDatagen"
+        "dhyces.charmofreturn.FabricCharmOfReturnDatagen"
       ],
       "modmenu": [
-        "dhyces.ringofreturn.ModMenuRingOfReturnImpl"
+        "dhyces.charmofreturn.ModMenuCharmOfReturnImpl"
       ]
     },
     "mixins": [
-      "ringofreturn.mixins.json"
+      "charmofreturn.mixins.json"
     ],
   
     "depends": {

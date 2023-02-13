@@ -1,0 +1,8 @@
+{
+  "item.charmofreturn.charm_of_return": "Charm of Return",
+  "item.charmofreturn.charm_of_return.desc": "Hold right click to return home",
+  "jei_info.charmofreturn.charm_of_return": "These charms are used to teleport the user to their spawnpoint. By default, they can be found in end city chests and rarely in stronghold chests",
+  "config_screen.charmofreturn.title": "Charm of Return Config",
+  "config_screen.charmofreturn.save": "Save",
+  "config_screen.charmofreturn.close": "Close"
+}
