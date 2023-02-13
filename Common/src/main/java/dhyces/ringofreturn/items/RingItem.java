@@ -1,13 +1,12 @@
 package dhyces.ringofreturn.items;
 
-import com.mojang.math.Vector3f;
 import dhyces.ringofreturn.services.Services;
 import dhyces.ringofreturn.util.Utils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +27,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.*;
 
@@ -70,7 +70,7 @@ public class RingItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, level, components, tooltipFlag);
-        components.add(new TranslatableComponent("item.ringofreturn.ring_of_return.desc"));
+        components.add(Component.translatable("item.ringofreturn.ring_of_return.desc"));
     }
 
     @Override
@@ -153,12 +153,15 @@ public class RingItem extends Item {
                         player.awardStat(Stats.ITEM_USED.get(this), 1);
                         if (teleportPosition.isSameDimension(pLevel)) {
                             BlockPos position = teleportPosition.position;
-                            player.connection.teleport(position.getX(), position.getY(), position.getZ(), player.getYRot(), player.getXRot());
+                            double x = position.getX();
+                            double y = position.getY();
+                            double z = position.getZ();
+                            player.connection.teleport(x, y, z, player.getYRot(), player.getXRot());
                             if (broken) {
-                                player.connection.send(new ClientboundSoundPacket(SoundEvents.GLASS_BREAK, SoundSource.MASTER, position.getX(), position.getY(), position.getZ(), 1.0f, 1.0f));
-                                player.connection.send(new ClientboundSoundPacket(SoundEvents.AMETHYST_CLUSTER_BREAK, SoundSource.MASTER, position.getX(), position.getY(), position.getZ(), 1.0f, 1.0f));
+                                player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.GLASS_BREAK), SoundSource.MASTER, x, y, z, 1.0f, 1.0f, player.getRandom().nextLong()));
+                                player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.AMETHYST_CLUSTER_BREAK), SoundSource.MASTER, x, y, z, 1.0f, 1.0f, player.getRandom().nextLong()));
                             }
-                            player.connection.send(new ClientboundSoundPacket(SoundEvents.ENDERMAN_TELEPORT, SoundSource.MASTER, position.getX(), position.getY(), position.getZ(), 1.0f, 1.0f));
+                            player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.ENDERMAN_TELEPORT), SoundSource.MASTER, x, y, z, 1.0f, 1.0f, player.getRandom().nextLong()));
                         } else {
                             Services.PLATFORM_HELPER.teleportToDimension(player, serverLevel, new PortalInfo(Vec3.atCenterOf(teleportPosition.position), Vec3.ZERO, player.getYRot(), player.getXRot()));
                         }

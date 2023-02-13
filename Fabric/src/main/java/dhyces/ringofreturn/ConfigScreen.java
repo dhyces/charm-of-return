@@ -9,7 +9,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 
 public class ConfigScreen extends Screen {
 
@@ -17,7 +17,7 @@ public class ConfigScreen extends Screen {
     private ConfigHolder holder;
 
     public ConfigScreen(Screen parent) {
-        super(new TranslatableComponent("config_screen.ringofreturn.title"));
+        super(Component.translatable("config_screen.ringofreturn.title"));
         this.parent = parent;
         this.holder = new ConfigHolder(Services.CONFIG_HELPER);
     }
@@ -26,34 +26,32 @@ public class ConfigScreen extends Screen {
     protected void init() {
         super.init();
         addRenderableWidget(
-                new Button((width / 2) - 75, height - 50, 50, 20, new TranslatableComponent("config_screen.ringofreturn.save"),
-                        button -> holder.save()
-                )
+                Button.builder(Component.translatable("config_screen.ringofreturn.save"), button -> holder.save()).pos((width / 2) - 75, height - 50).size(50, 20).build()
         );
-        addRenderableWidget(new Button((width / 2), height - 50, 50, 20, new TranslatableComponent("config_screen.ringofreturn.close"),
-                button -> this.minecraft.setScreen(parent))
+        addRenderableWidget(
+                Button.builder(Component.translatable("config_screen.ringofreturn.save"), button -> this.minecraft.setScreen(parent)).pos((width / 2), height - 50).size(50, 20).build()
         );
 
-        addRenderableWidget(new ConfigEditBox(font, 50, 50, 200, 20, new TranslatableComponent("config_screen.ringofreturn.level_cost_expression"),
+        addRenderableWidget(new ConfigEditBox(font, 50, 50, 200, 20, Component.translatable("config_screen.ringofreturn.level_cost_expression"),
                 box1 -> {
                     box1.parseExpression();
                     this.holder.levelCostStr = box1.getValue();
                 }
                 , "0.8x")
         );
-        addRenderableWidget(new ConfigEditBox(font, 50, 80, 200, 20, new TranslatableComponent("config_screen.ringofreturn.durability"),
+        addRenderableWidget(new ConfigEditBox(font, 50, 80, 200, 20, Component.translatable("config_screen.ringofreturn.durability"),
                 box1 -> this.holder.durability = box1.parseIntValue()
                 , "0")
         );
-        addRenderableWidget(new ConfigEditBox(font, 50, 110, 200, 20, new TranslatableComponent("config_screen.ringofreturn.charge_ticks"),
+        addRenderableWidget(new ConfigEditBox(font, 50, 110, 200, 20, Component.translatable("config_screen.ringofreturn.charge_ticks"),
                 box1 -> this.holder.charge = box1.parseIntValue()
                 , "200")
         );
-        addRenderableWidget(new ConfigEditBox(font, 50, 140, 200, 20, new TranslatableComponent("config_screen.ringofreturn.cooldown_ticks"),
+        addRenderableWidget(new ConfigEditBox(font, 50, 140, 200, 20, Component.translatable("config_screen.ringofreturn.cooldown_ticks"),
                 box1 -> this.holder.cooldown = box1.parseIntValue()
                 , "1200")
         );
-        addRenderableWidget(new ConfigEditBox(font, 50, 170, 200, 20, new TranslatableComponent("config_screen.ringofreturn.is_client_only_particles"),
+        addRenderableWidget(new ConfigEditBox(font, 50, 170, 200, 20, Component.translatable("config_screen.ringofreturn.is_client_only_particles"),
                 box1 -> this.holder.isClientParticles = box1.parseBooleanValue()
                 , "false")
         );

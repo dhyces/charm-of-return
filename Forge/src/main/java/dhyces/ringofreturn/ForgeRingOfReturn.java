@@ -1,9 +1,10 @@
 package dhyces.ringofreturn;
 
-import net.minecraft.core.Registry;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -15,8 +16,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 @Mod(RingOfReturn.MODID)
 public class ForgeRingOfReturn {
 
-    private static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(Registry.ITEM_REGISTRY, RingOfReturn.MODID);
-    private static final DeferredRegister<GlobalLootModifierSerializer<?>> LOOT_MODIFIER_REGISTER = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, RingOfReturn.MODID);
+    private static final DeferredRegister<Item> ITEM_REGISTER = DeferredRegister.create(Registries.ITEM, RingOfReturn.MODID);
+    private static final DeferredRegister<Codec<? extends IGlobalLootModifier>> LOOT_MODIFIER_REGISTER = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, RingOfReturn.MODID);
 
     public static final ForgeConfig CONFIG = new ForgeConfig();
 
@@ -27,7 +28,7 @@ public class ForgeRingOfReturn {
         LOOT_MODIFIER_REGISTER.register(modBus);
 
         ITEM_REGISTER.register("ring_of_return", Register.RING);
-        LOOT_MODIFIER_REGISTER.register("loot_table_inject", LootTableLootModifier.Serializer::new);
+        LOOT_MODIFIER_REGISTER.register("loot_table_inject", () -> LootTableLootModifier.CODEC);
 
         ForgeConfigSpec.Builder spec = new ForgeConfigSpec.Builder()
                 .push("Common");

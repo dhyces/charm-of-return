@@ -14,6 +14,8 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -32,7 +34,7 @@ public class FabricRingOfReturn implements ModInitializer {
     @Override
     public void onInitialize() {
         setupConfig();
-        Registry.register(Registry.ITEM, RingOfReturn.id("ring_of_return"), Register.RING.get());
+        Registry.register(BuiltInRegistries.ITEM, RingOfReturn.id("ring_of_return"), Register.RING.get());
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             FriendlyByteBuf buf = PacketByteBufs.create();

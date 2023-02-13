@@ -9,5 +9,5 @@ import net.minecraft.world.item.Rarity;
 import java.util.function.Supplier;
 
 public class Register {
-    public static final Supplier<RingItem> RING = Suppliers.memoize(() -> new RingItem(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1).tab(CreativeModeTab.TAB_TOOLS)));
+    public static final Supplier<RingItem> RING = Suppliers.memoize(() -> new RingItem(new Item.Properties().rarity(Rarity.EPIC).stacksTo(1)));
 }
