@@ -187,6 +187,15 @@ public class CharmItem extends Item {
         return UseAnim.NONE;
     }
 
+    /**
+     * TEMPORARY API: PRONE TO REMOVAL IN ANY MINOR OR MAJOR UPDATE.
+     * Only one teleport function for any given level. This activates when the player finishes using the item, before
+     * checks to determine if the player will teleport or not. This should therefore not be assuming that the player
+     * definitely will teleport.
+     *
+     * @param levelKey ResourceKey of the level to set the teleport function for
+     * @param function TeleportFunction to activate if user is in this level and passes requirements
+     */
     public static void addTeleportFunction(ResourceKey<Level> levelKey, TeleportFunction function) {
         TELEPORT_FUNCTION_MAP.put(levelKey, function);
     }
