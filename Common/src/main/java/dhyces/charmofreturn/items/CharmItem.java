@@ -33,7 +33,7 @@ import java.util.*;
 
 public class CharmItem extends Item {
 
-    private static final Map<ResourceKey<Level>, RingFunction> RING_FUNCTION_MAP = Util.make(new HashMap<>(), map -> {
+    private static final Map<ResourceKey<Level>, TeleportFunction> TELEPORT_FUNCTION_MAP = Util.make(new HashMap<>(), map -> {
         map.put(Level.OVERWORLD, (stack, level, user) -> {
             BlockPos pos;
             if (user.getRespawnDimension().equals(Level.OVERWORLD) && user.getRespawnPosition() != null) {
@@ -133,7 +133,7 @@ public class CharmItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (pLevel instanceof ServerLevel serverLevel && pLivingEntity instanceof ServerPlayer player) {
-            RingFunction function = RING_FUNCTION_MAP.get(pLevel.dimension());
+            TeleportFunction function = TELEPORT_FUNCTION_MAP.get(pLevel.dimension());
             if (function != null) {
                 Optional<TeleportPosition> pos = function.onTeleport(pStack, serverLevel, player);
                 if (pos.isPresent()) {
@@ -187,8 +187,8 @@ public class CharmItem extends Item {
         return UseAnim.NONE;
     }
 
-    public static void addRingFunction(ResourceKey<Level> levelKey, RingFunction function) {
-        RING_FUNCTION_MAP.put(levelKey, function);
+    public static void addTeleportFunction(ResourceKey<Level> levelKey, TeleportFunction function) {
+        TELEPORT_FUNCTION_MAP.put(levelKey, function);
     }
 
     public record TeleportPosition(ResourceKey<Level> levelKey, BlockPos position) {
@@ -197,7 +197,7 @@ public class CharmItem extends Item {
         }
     }
 
-    public interface RingFunction {
+    public interface TeleportFunction {
         Optional<TeleportPosition> onTeleport(ItemStack stack, ServerLevel level, ServerPlayer user);
     }
 }
