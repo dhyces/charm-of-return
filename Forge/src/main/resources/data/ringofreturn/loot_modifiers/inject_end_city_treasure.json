@@ -1,0 +1,10 @@
+{
+  "type": "ringofreturn:loot_table_inject",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/end_city_treasure"
+    }
+  ],
+  "loot_table": "ringofreturn:chests/injected/ring_loot_higher_chance"
+}

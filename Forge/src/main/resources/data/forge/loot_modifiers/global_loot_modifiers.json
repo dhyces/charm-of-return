@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "entries": [
+    "ringofreturn:inject_end_city_treasure",
+    "ringofreturn:inject_stronghold_corridor",
+    "ringofreturn:inject_stronghold_crossing"
+  ]
+}

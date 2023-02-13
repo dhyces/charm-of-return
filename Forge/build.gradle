@@ -3,12 +3,13 @@ plugins {
     id 'eclipse'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 archivesBaseName = "${mod_name}-forge-${minecraft_version}"
 
 minecraft {
-    mappings channel: 'official', version: minecraft_version
+    mappings channel: 'parchment', version: '2022.08.07-1.18.2'
     
     if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
         // This location is hardcoded in Forge and can not be changed.
@@ -65,8 +66,34 @@ minecraft {
 
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
+repositories {
+    mavenCentral()
+    maven {
+        // location of the maven that hosts JEI files before January 2023
+        name = "Progwml6's maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        // location of the maven that hosts JEI files since January 2023
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    }
+}
+
+jarJar.enable()
+
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraftLibrary "net.objecthunter:exp4j:0.4.8"
+    jarJar(group: 'net.objecthunter', name: 'exp4j', version: '[0.4.8,)')
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:10.2.1.283"))
+    compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:10.2.1.283"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:10.2.1.283"))
     compileOnly project(":Common")
 }
 
@@ -78,6 +105,7 @@ processResources {
     from project(":Common").sourceSets.main.resources
 }
 
+reobf { jarJar { } }
 
 jar.finalizedBy('reobfJar')
 

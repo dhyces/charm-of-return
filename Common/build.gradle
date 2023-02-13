@@ -21,9 +21,18 @@ minecraft {
     }
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDirs += [file("$rootDir/Common/src/main/generated")]
+        }
+    }
+}
+
 dependencies {
-     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    implementation "net.objecthunter:exp4j:0.4.8"
 }
 
 processResources {
