@@ -1,10 +1,10 @@
 {
-  "type": "ringofreturn:loot_table_inject",
+  "type": "charmofreturn:loot_table_inject",
   "conditions": [
     {
       "condition": "forge:loot_table_id",
       "loot_table_id": "minecraft:chests/stronghold_crossing"
     }
   ],
-  "loot_table": "ringofreturn:chests/injected/ring_loot_low_chance"
+  "loot_table": "charmofreturn:chests/injected/charm_loot_low_chance"
 }

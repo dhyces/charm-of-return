@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "ringofreturn:item/ring_of_return"
+    "layer0": "charmofreturn:item/charm_of_return"
   }
 }

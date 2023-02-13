@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "ringofreturn",
+    "id": "charmofreturn",
     "version": "${version}",
   
     "name": "Charm of Return",
@@ -33,7 +33,7 @@
       ]
     },
     "mixins": [
-      "ringofreturn.mixins.json"
+      "charmofreturn.mixins.json"
     ],
   
     "depends": {

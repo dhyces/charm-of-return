@@ -70,7 +70,7 @@ public class CharmItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> components, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, level, components, tooltipFlag);
-        components.add(Component.translatable("item.ringofreturn.ring_of_return.desc"));
+        components.add(Component.translatable("item.charmofreturn.charm_of_return.desc"));
     }
 
     @Override

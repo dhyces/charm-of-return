@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 
 @mezz.jei.api.JeiPlugin
 public class JeiPlugin implements IModPlugin {
-    private static final ResourceLocation PLUGIN_ID = CharmOfReturn.id("ringofreturn");
+    private static final ResourceLocation PLUGIN_ID = CharmOfReturn.id("charmofreturn");
     @Override
     public ResourceLocation getPluginUid() {
         return PLUGIN_ID;
@@ -18,6 +18,6 @@ public class JeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addItemStackInfo(new ItemStack(Register.CHARM.get()), Component.translatable("jei_info.ringofreturn.ring_of_return"));
+        registration.addItemStackInfo(new ItemStack(Register.CHARM.get()), Component.translatable("jei_info.charmofreturn.charm_of_return"));
     }
 }

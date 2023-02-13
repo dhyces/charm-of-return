@@ -19,11 +19,11 @@ public class ModLootTableProvider extends SimpleFabricLootTableProvider {
 
     @Override
     public void accept(BiConsumer<ResourceLocation, LootTable.Builder> resourceLocationBuilderBiConsumer) {
-        resourceLocationBuilderBiConsumer.accept(CharmOfReturn.id("chests/injected/ring_loot_low_chance"), ringLoot(0.1f));
-        resourceLocationBuilderBiConsumer.accept(CharmOfReturn.id("chests/injected/ring_loot_higher_chance"), ringLoot(0.35f));
+        resourceLocationBuilderBiConsumer.accept(CharmOfReturn.id("chests/injected/charm_loot_low_chance"), charmLoot(0.1f));
+        resourceLocationBuilderBiConsumer.accept(CharmOfReturn.id("chests/injected/charm_loot_higher_chance"), charmLoot(0.35f));
     }
 
-    private LootTable.Builder ringLoot(float chance) {
+    private LootTable.Builder charmLoot(float chance) {
         return new LootTable.Builder().withPool(
                 LootPool.lootPool().add(
                         LootItem.lootTableItem(Register.CHARM.get())

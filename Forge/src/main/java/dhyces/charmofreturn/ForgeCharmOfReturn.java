@@ -10,6 +10,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -43,5 +44,9 @@ public class ForgeCharmOfReturn {
 
         modBus.addListener(CONFIG::onConfigLoaded);
         modBus.addListener(CONFIG::onConfigChanged);
+
+        if (FMLLoader.getDist().isClient()) {
+            ForgeCharmOfReturnClient.init(modBus);
+        }
     }
 }

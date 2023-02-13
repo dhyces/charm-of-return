@@ -8,6 +8,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -17,6 +18,8 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 
@@ -27,13 +30,13 @@ import java.nio.file.Path;
 
 public class FabricCharmOfReturn implements ModInitializer {
     private static final Gson GSON = new GsonBuilder().setLenient().setPrettyPrinting().create();
-    private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("ringofreturn.json");
+    private static final Path CONFIG_PATH = FabricLoader.getInstance().getConfigDir().resolve("charmofreturn.json");
     public static FabricConfig config;
 
     @Override
     public void onInitialize() {
         setupConfig();
-        Registry.register(BuiltInRegistries.ITEM, CharmOfReturn.id("ring_of_return"), Register.CHARM.get());
+        Registry.register(BuiltInRegistries.ITEM, CharmOfReturn.id("charm_of_return"), Register.CHARM.get());
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             FriendlyByteBuf buf = PacketByteBufs.create();
@@ -51,13 +54,17 @@ public class FabricCharmOfReturn implements ModInitializer {
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
             if (id.equals(new ResourceLocation("chests/end_city_treasure"))) {
                 tableBuilder.withPool(
-                        new LootPool.Builder().add(LootTableReference.lootTableReference(CharmOfReturn.id("chests/injected/ring_loot_higher_chance")))
+                        new LootPool.Builder().add(LootTableReference.lootTableReference(CharmOfReturn.id("chests/injected/charm_loot_higher_chance")))
                 );
             } else if (id.equals(new ResourceLocation("chests/stronghold_corridor")) || id.equals(new ResourceLocation("chests/stronghold_crossing"))) {
                 tableBuilder.withPool(
-                        new LootPool.Builder().add(LootTableReference.lootTableReference(CharmOfReturn.id("chests/injected/ring_loot_low_chance")))
+                        new LootPool.Builder().add(LootTableReference.lootTableReference(CharmOfReturn.id("chests/injected/charm_loot_low_chance")))
                 );
             }
+        });
+
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(entries -> {
+            entries.accept(new ItemStack(Register.CHARM.get()));
         });
     }
 
