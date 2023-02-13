@@ -19,5 +19,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'RingOfReturn'
+rootProject.name = 'CharmOfReturn'
 include("Common", "Fabric", "Forge")

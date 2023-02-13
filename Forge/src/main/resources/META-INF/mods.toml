@@ -21,7 +21,7 @@ modId="ringofreturn" #mandatory
 # see the associated build.gradle script for how to populate this completely automatically during a build
 version="${file.jarVersion}" #mandatory
  # A display name for the mod
-displayName="Ring of Return" #mandatory
+displayName="Charm of Return" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://mcforge.readthedocs.io/en/latest/gettingstarted/autoupdate/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -32,10 +32,10 @@ logoFile="icon.png" #optional
 authors="Dhyces" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
-Magic mirror, but it's a ring. Return to spawn point!
+Magic mirror, but it's a charm. Return to spawn point!
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.ringofreturn]] #optional
+[[dependencies.charmofreturn]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -47,7 +47,7 @@ Magic mirror, but it's a ring. Return to spawn point!
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 # Here's another dependency
-[[dependencies.ringofreturn]]
+[[dependencies.charmofreturn]]
     modId="minecraft"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version

@@ -10,8 +10,8 @@
     ],
     "contact": {
       "homepage": "https://www.curseforge.com/minecraft/mc-mods/charm-of-return",
-      "sources": "https://github.com/dhyces/ring-of-return",
-      "issues": "https://github.com/dhyces/ring-of-return/issues"
+      "sources": "https://github.com/dhyces/charm-of-return",
+      "issues": "https://github.com/dhyces/charm-of-return/issues"
     },
   
     "license": "MIT",
@@ -20,16 +20,16 @@
     "environment": "*",
     "entrypoints": {
       "main": [
-        "dhyces.ringofreturn.FabricRingOfReturn"
+        "dhyces.charmofreturn.FabricCharmOfReturn"
       ],
       "client": [
-        "dhyces.ringofreturn.FabricRingOfReturnClient"
+        "dhyces.charmofreturn.FabricCharmOfReturnClient"
       ],
       "fabric-datagen": [
-        "dhyces.ringofreturn.FabricRingOfReturnDatagen"
+        "dhyces.charmofreturn.FabricCharmOfReturnDatagen"
       ],
       "modmenu": [
-        "dhyces.ringofreturn.ModMenuRingOfReturnImpl"
+        "dhyces.charmofreturn.ModMenuCharmOfReturnImpl"
       ]
     },
     "mixins": [

@@ -1,8 +1,8 @@
 {
-  "item.ringofreturn.ring_of_return": "Ring of Return",
-  "item.ringofreturn.ring_of_return.desc": "Hold right click to return home",
-  "jei_info.ringofreturn.ring_of_return": "These rings are used to teleport the user to their spawnpoint. By default, they can be found in end city chests and rarely in stronghold chests",
-  "config_screen.ringofreturn.title": "Ring of Return Config",
-  "config_screen.ringofreturn.save": "Save",
-  "config_screen.ringofreturn.close": "Close"
+  "item.charmofreturn.ring_of_return": "Charm of Return",
+  "item.charmofreturn.ring_of_return.desc": "Hold right click to return home",
+  "jei_info.charmofreturn.ring_of_return": "These charms are used to teleport the user to their spawnpoint. By default, they can be found in end city chests and rarely in stronghold chests",
+  "config_screen.charmofreturn.title": "Charm of Return Config",
+  "config_screen.charmofreturn.save": "Save",
+  "config_screen.charmofreturn.close": "Close"
 }
