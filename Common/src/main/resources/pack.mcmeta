@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "${mod_name}",
+        "description": "Charm of Return resources",
         "pack_format": 10
     }
 }
