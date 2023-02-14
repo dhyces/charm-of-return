@@ -5,6 +5,7 @@ import dhyces.charmofreturn.services.Services;
 import dhyces.charmofreturn.util.Utils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -25,6 +26,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.RespawnAnchorBlock;
 import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -35,22 +38,27 @@ public class CharmItem extends Item {
 
     private static final Map<ResourceKey<Level>, RingFunction> RING_FUNCTION_MAP = Util.make(new HashMap<>(), map -> {
         map.put(Level.OVERWORLD, (stack, level, user) -> {
-            BlockPos pos;
             if (user.getRespawnDimension().equals(Level.OVERWORLD) && user.getRespawnPosition() != null) {
-                pos = user.getRespawnPosition();
-            } else {
-                pos = level.getSharedSpawnPos();
+                Optional<Vec3> potentialBedPos = BedBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition(), Direction.NORTH, user.getYRot());
+                if (potentialBedPos.isPresent()) {
+                    return Optional.of(new TeleportPosition(Level.OVERWORLD, new BlockPos(potentialBedPos.get())));
+                } else {
+                    user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
+                }
             }
+            BlockPos pos = level.getSharedSpawnPos();
             return Optional.of(new TeleportPosition(Level.OVERWORLD, pos));
         });
         map.put(Level.NETHER, (stack, level, user) -> {
-            BlockPos pos;
-            if (user.getRespawnDimension().equals(Level.NETHER)) {
-                pos = user.getRespawnPosition();
-            } else {
-                return Optional.empty();
+            if (user.getRespawnDimension().equals(Level.NETHER) && user.getRespawnPosition() != null) {
+                Optional<Vec3> potentialAnchorPos = RespawnAnchorBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition());
+                if (potentialAnchorPos.isPresent()) {
+                    return Optional.of(new TeleportPosition(Level.NETHER, new BlockPos(potentialAnchorPos.get())));
+                } else {
+                    user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
+                }
             }
-            return Optional.of(new TeleportPosition(Level.NETHER, pos));
+            return Optional.empty();
         });
         map.put(Level.END, (stack, level, user) -> {
             BlockPos pos;
@@ -133,14 +141,14 @@ public class CharmItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pLivingEntity) {
         if (pLevel instanceof ServerLevel serverLevel && pLivingEntity instanceof ServerPlayer player) {
-            RingFunction function = RING_FUNCTION_MAP.get(pLevel.dimension());
-            if (function != null) {
-                Optional<TeleportPosition> pos = function.onTeleport(pStack, serverLevel, player);
-                if (pos.isPresent()) {
-                    TeleportPosition teleportPosition = pos.get();
-                    int exp = (int)Utils.totalExperience(player);
-                    double xpToTake = Services.PLATFORM_HELPER.getLevelCostExpression().setVariable("x", exp).evaluate();
-                    if (exp >= xpToTake || player.getAbilities().instabuild) {
+            int exp = (int)Utils.totalExperience(player);
+            double xpToTake = Services.PLATFORM_HELPER.getLevelCostExpression().setVariable("x", exp).evaluate();
+            if (exp >= xpToTake || player.getAbilities().instabuild) {
+                TeleportFunction function = TELEPORT_FUNCTION_MAP.get(pLevel.dimension());
+                if (function != null) {
+                    Optional<TeleportPosition> pos = function.onTeleport(pStack, serverLevel, player);
+                    if (pos.isPresent()) {
+                        TeleportPosition teleportPosition = pos.get();
                         boolean broken = false;
                         player.giveExperiencePoints(-(int)xpToTake);
                         player.getCooldowns().addCooldown(this, Services.PLATFORM_HELPER.getCooldownTicks());
@@ -184,8 +192,16 @@ public class CharmItem extends Item {
         return UseAnim.NONE;
     }
 
-    public static void addRingFunction(ResourceKey<Level> levelKey, RingFunction function) {
-        RING_FUNCTION_MAP.put(levelKey, function);
+    /**
+     * TEMPORARY API: PRONE TO REMOVAL IN ANY MINOR OR MAJOR UPDATE.
+     * Only one teleport function for any given level. This activates when the player finishes using the item, after
+     * confirming requirements are met to determine if the player will teleport or not.
+     *
+     * @param levelKey ResourceKey of the level to set the teleport function for
+     * @param function TeleportFunction to activate if user is in this level and passes requirements
+     */
+    public static void addTeleportFunction(ResourceKey<Level> levelKey, TeleportFunction function) {
+        TELEPORT_FUNCTION_MAP.put(levelKey, function);
     }
 
     public record TeleportPosition(ResourceKey<Level> levelKey, BlockPos position) {
