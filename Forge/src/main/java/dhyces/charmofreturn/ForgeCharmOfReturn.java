@@ -38,6 +38,7 @@ public class ForgeCharmOfReturn {
         CONFIG.chargeTime = spec.comment("Number of ticks it takes to use the charm").defineInRange("chargeTicks", () -> 200, 0, Integer.MAX_VALUE);
         CONFIG.cooldownTime = spec.comment("Number of ticks for the cooldown").defineInRange("cooldownTicks", () -> 1200, 0, Integer.MAX_VALUE);
         CONFIG.isClientParticles = spec.comment("If warp particles are only visible on the user's client. Default is false").define("clientOnlyParticles", false);
+        CONFIG.isUseAnchorCharge = spec.comment("If teleporting to a respawn anchor should use up a charge. Default is false.").define("useAnchorCharge", false);
         spec.pop();
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, spec.build());

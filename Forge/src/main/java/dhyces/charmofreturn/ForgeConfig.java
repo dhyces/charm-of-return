@@ -13,6 +13,7 @@ public class ForgeConfig {
     public ForgeConfigSpec.IntValue chargeTime;
     public ForgeConfigSpec.IntValue cooldownTime;
     public ForgeConfigSpec.BooleanValue isClientParticles;
+    public ForgeConfigSpec.BooleanValue isUseAnchorCharge;
 
     public Expression levelCostExpression;
 

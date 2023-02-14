@@ -12,6 +12,8 @@ public interface ConfigHelper {
 
     boolean isClientParticles();
 
+    boolean isUseAnchorCharge();
+
     void setExpressionString(String expression);
 
     void setDurability(int durability);
@@ -20,7 +22,9 @@ public interface ConfigHelper {
 
     void setCooldown(int cooldown);
 
-    void setClientParticles(boolean bool);
+    void setClientParticles(boolean value);
+
+    void setUseAnchorCharge(boolean value);
 
     void save();
 }

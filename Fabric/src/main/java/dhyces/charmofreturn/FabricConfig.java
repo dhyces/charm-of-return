@@ -35,7 +35,8 @@ public class FabricConfig {
                     Codec.intRange(0, Integer.MAX_VALUE).fieldOf("durability").forGetter(FabricConfig::getDurability),
                     Codec.intRange(0, Integer.MAX_VALUE).fieldOf("chargeTicks").forGetter(FabricConfig::getCharge),
                     Codec.intRange(0, Integer.MAX_VALUE).fieldOf("cooldownTicks").forGetter(FabricConfig::getCooldown),
-                    Codec.BOOL.fieldOf("clientOnlyParticles").forGetter(FabricConfig::isClientParticles)
+                    Codec.BOOL.fieldOf("clientOnlyParticles").forGetter(FabricConfig::isClientParticles),
+                    Codec.BOOL.fieldOf("useAnchorCharge").forGetter(FabricConfig::isUseAnchorCharge)
             ).apply(instance, FabricConfig::new)
     );
 
@@ -45,19 +46,21 @@ public class FabricConfig {
     public int charge;
     public int cooldown;
     public boolean isClientParticles;
+    public boolean isUseAnchorCharge;
 
     public FabricConfig() {
-        this(Pair.of("0.8x", null), 0, 200, 1200, false);
+        this(Pair.of("0.8x", null), 0, 200, 1200, false, false);
         this.levelCostExpression = new ExpressionBuilder(levelCostStr).variable("x").build();
     }
 
-    public FabricConfig(Pair<String, Expression> levelCost, int durability, int charge, int cooldown, boolean isClientParticles) {
+    public FabricConfig(Pair<String, Expression> levelCost, int durability, int charge, int cooldown, boolean isClientParticles, boolean isUseAnchorCharge) {
         this.levelCostStr = levelCost.getFirst();
         this.levelCostExpression = levelCost.getSecond();
         this.durability = durability;
         this.charge = charge;
         this.cooldown = cooldown;
         this.isClientParticles = isClientParticles;
+        this.isUseAnchorCharge = isUseAnchorCharge;
     }
 
     public String getLevelCostStr() {
@@ -91,6 +94,10 @@ public class FabricConfig {
 
     public boolean isClientParticles() {
         return isClientParticles;
+    }
+
+    public boolean isUseAnchorCharge() {
+        return isUseAnchorCharge;
     }
 
     public static FabricConfig readFromBuf(FriendlyByteBuf buf) {

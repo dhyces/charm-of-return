@@ -12,6 +12,7 @@ import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -26,7 +27,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BedBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RespawnAnchorBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -50,10 +53,18 @@ public class CharmItem extends Item {
             return Optional.of(new TeleportPosition(Level.OVERWORLD, pos));
         });
         map.put(Level.NETHER, (stack, level, user) -> {
-            if (user.getRespawnDimension().equals(Level.NETHER) && user.getRespawnPosition() != null) {
-                Optional<Vec3> potentialAnchorPos = RespawnAnchorBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition());
+            boolean usesCharge = Services.CONFIG_HELPER.isUseAnchorCharge();
+            if (user.getRespawnDimension().equals(Level.NETHER) && user.getRespawnPosition() != null && (!usesCharge || level.getBlockState(user.getRespawnPosition()).getValue(RespawnAnchorBlock.CHARGE) > 0)) {
+                BlockPos blockPos = user.getRespawnPosition();
+                Optional<Vec3> potentialAnchorPos = RespawnAnchorBlock.findStandUpPosition(user.getType(), level, blockPos);
                 if (potentialAnchorPos.isPresent()) {
-                    return Optional.of(new TeleportPosition(Level.NETHER, new BlockPos(potentialAnchorPos.get())));
+                    Vec3 pos = potentialAnchorPos.get();
+                    if (usesCharge) {
+                        BlockState state = level.getBlockState(blockPos);
+                        level.setBlock(blockPos, state.setValue(RespawnAnchorBlock.CHARGE, state.getValue(RespawnAnchorBlock.CHARGE)-1), Block.UPDATE_ALL);
+                        Utils.sendSimpleSoundEvent(user, SoundEvents.RESPAWN_ANCHOR_DEPLETE, SoundSource.BLOCKS, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0f, 1.0f);
+                    }
+                    return Optional.of(new TeleportPosition(Level.NETHER, new BlockPos(pos)));
                 } else {
                     user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
                 }
