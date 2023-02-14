@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "charmofreturn:item/charm_of_return"
-  }
-}

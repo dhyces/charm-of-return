@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "entries": [
-    "charmofreturn:inject_end_city_treasure",
-    "charmofreturn:inject_stronghold_corridor",
-    "charmofreturn:inject_stronghold_crossing"
-  ]
-}
