@@ -29,6 +29,11 @@ public class ForgeConfigHelper implements ConfigHelper {
     }
 
     @Override
+    public boolean isUseAnchorCharge() {
+        return ForgeCharmOfReturn.CONFIG.isUseAnchorCharge.get();
+    }
+
+    @Override
     public void setExpressionString(String expression) {
         ForgeCharmOfReturn.CONFIG.levelCost.set(expression);
         ForgeCharmOfReturn.CONFIG.refreshExpression();
@@ -50,8 +55,13 @@ public class ForgeConfigHelper implements ConfigHelper {
     }
 
     @Override
-    public void setClientParticles(boolean bool) {
-        ForgeCharmOfReturn.CONFIG.isClientParticles.set(bool);
+    public void setClientParticles(boolean value) {
+        ForgeCharmOfReturn.CONFIG.isClientParticles.set(value);
+    }
+
+    @Override
+    public void setUseAnchorCharge(boolean value) {
+        ForgeCharmOfReturn.CONFIG.isUseAnchorCharge.set(value);
     }
 
     @Override

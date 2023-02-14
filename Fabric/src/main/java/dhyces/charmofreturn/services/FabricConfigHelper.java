@@ -29,6 +29,11 @@ public class FabricConfigHelper implements ConfigHelper {
     }
 
     @Override
+    public boolean isUseAnchorCharge() {
+        return FabricCharmOfReturn.config.isUseAnchorCharge;
+    }
+
+    @Override
     public void setExpressionString(String expression) {
         FabricCharmOfReturn.config.setLevelCostStr(expression);
     }
@@ -51,6 +56,11 @@ public class FabricConfigHelper implements ConfigHelper {
     @Override
     public void setClientParticles(boolean bool) {
         FabricCharmOfReturn.config.isClientParticles = bool;
+    }
+
+    @Override
+    public void setUseAnchorCharge(boolean value) {
+        FabricCharmOfReturn.config.isUseAnchorCharge = value;
     }
 
     @Override
