@@ -1,7 +1,7 @@
 package dhyces.charmofreturn.util;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -24,11 +24,8 @@ public class Utils {
         return total + player.experienceProgress * player.getXpNeededForNextLevel();
     }
 
-    public static void sendSimpleSoundEvent(ServerPlayer player, SoundEvent pSound, SoundSource pSource, double pX, double pY, double pZ, float pVolume, float pPitch) {
-        sendSimpleSoundEvent(player, BuiltInRegistries.SOUND_EVENT.wrapAsHolder(pSound), pSource, pX, pY, pZ, pVolume, pPitch);
-    }
 
-    public static void sendSimpleSoundEvent(ServerPlayer player, Holder<SoundEvent> pSound, SoundSource pSource, double pX, double pY, double pZ, float pVolume, float pPitch) {
-        player.connection.send(new ClientboundSoundPacket(pSound, pSource, pX, pY, pZ, pVolume, pPitch, player.getRandom().nextLong()));
+    public static void sendSimpleSoundEvent(ServerPlayer player, SoundEvent pSound, SoundSource pSource, double pX, double pY, double pZ, float pVolume, float pPitch) {
+        player.connection.send(new ClientboundSoundPacket(pSound, pSource, pX, pY, pZ, pVolume, pPitch));
     }
 }
