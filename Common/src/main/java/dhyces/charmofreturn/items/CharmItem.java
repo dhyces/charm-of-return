@@ -36,14 +36,14 @@ import java.util.*;
 
 public class CharmItem extends Item {
 
-    private static final Map<ResourceKey<Level>, RingFunction> RING_FUNCTION_MAP = Util.make(new HashMap<>(), map -> {
+    private static final Map<ResourceKey<Level>, TeleportFunction> TELEPORT_FUNCTION_MAP = Util.make(new HashMap<>(), map -> {
         map.put(Level.OVERWORLD, (stack, level, user) -> {
             if (user.getRespawnDimension().equals(Level.OVERWORLD) && user.getRespawnPosition() != null) {
-                Optional<Vec3> potentialBedPos = BedBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition(), Direction.NORTH, user.getYRot());
+                Optional<Vec3> potentialBedPos = BedBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition(), user.getYRot());
                 if (potentialBedPos.isPresent()) {
                     return Optional.of(new TeleportPosition(Level.OVERWORLD, new BlockPos(potentialBedPos.get())));
                 } else {
-                    user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
+                    user.displayClientMessage(new TranslatableComponent("block.minecraft.spawn.not_valid"), false);
                 }
             }
             BlockPos pos = level.getSharedSpawnPos();
@@ -55,7 +55,7 @@ public class CharmItem extends Item {
                 if (potentialAnchorPos.isPresent()) {
                     return Optional.of(new TeleportPosition(Level.NETHER, new BlockPos(potentialAnchorPos.get())));
                 } else {
-                    user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
+                    user.displayClientMessage(new TranslatableComponent("block.minecraft.spawn.not_valid"), false);
                 }
             }
             return Optional.empty();
@@ -210,7 +210,7 @@ public class CharmItem extends Item {
         }
     }
 
-    public interface RingFunction {
+    public interface TeleportFunction {
         Optional<TeleportPosition> onTeleport(ItemStack stack, ServerLevel level, ServerPlayer user);
     }
 }
