@@ -1,0 +1,8 @@
+{
+  "item.charmofreturn.charm_of_return": "Амулет возврата",
+  "item.charmofreturn.charm_of_return.desc": "Нажмите и удерживайте правую кнопку мыши вплоть до возвращения домой.",
+  "jei_info.charmofreturn.charm_of_return": "Данные амулеты используются для того, чтобы телепортировать пользователя к своей точке возрождения. По умолчанию они могут находиться в сундуках города Энда и в редких случаях в сундуках Крепости.",
+  "config_screen.charmofreturn.title": "Настройки «Амулет возврата»",
+  "config_screen.charmofreturn.save": "Сохранить",
+  "config_screen.charmofreturn.close": "Закрыть"
+}
