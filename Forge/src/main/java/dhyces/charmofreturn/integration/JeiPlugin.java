@@ -1,7 +1,7 @@
 package dhyces.charmofreturn.integration;
 
-import dhyces.charmofreturn.Register;
 import dhyces.charmofreturn.CharmOfReturn;
+import dhyces.charmofreturn.Register;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.network.chat.TranslatableComponent;
