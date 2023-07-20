@@ -2,7 +2,6 @@ package dhyces.charmofreturn.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import dhyces.charmofreturn.client.ConfigEditBox;
 import dhyces.charmofreturn.services.ConfigHelper;
 import dhyces.charmofreturn.services.Services;
 import net.minecraft.client.gui.components.Button;
@@ -66,16 +65,6 @@ public class ConfigScreen extends Screen {
             }
         }
         return false;
-    }
-
-    private void unfocus() {
-        if (getFocused() != null) {
-            if (getFocused() instanceof ConfigEditBox box) {
-                box.setFocus(false);
-            }
-            getFocused().changeFocus(false);
-            setFocused(null);
-        }
     }
 
     @Override

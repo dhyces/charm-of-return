@@ -43,13 +43,13 @@ public class CharmItem extends Item {
             if (user.getRespawnDimension().equals(Level.OVERWORLD) && user.getRespawnPosition() != null) {
                 Optional<Vec3> potentialBedPos = BedBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition(), Direction.NORTH, user.getYRot());
                 if (potentialBedPos.isPresent()) {
-                    return Optional.of(new TeleportPosition(Level.OVERWORLD, new BlockPos(potentialBedPos.get())));
+                    return Optional.of(new TeleportPosition(Level.OVERWORLD, potentialBedPos.get()));
                 } else {
                     user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
                 }
             }
             BlockPos pos = level.getSharedSpawnPos();
-            return Optional.of(new TeleportPosition(Level.OVERWORLD, pos));
+            return Optional.of(new TeleportPosition(Level.OVERWORLD, pos.getCenter()));
         });
         map.put(Level.NETHER, (stack, level, user) -> {
             boolean usesCharge = Services.CONFIG_HELPER.isUseAnchorCharge();
@@ -63,7 +63,7 @@ public class CharmItem extends Item {
                         level.setBlock(blockPos, state.setValue(RespawnAnchorBlock.CHARGE, state.getValue(RespawnAnchorBlock.CHARGE)-1), Block.UPDATE_ALL);
                         Utils.sendSimpleSoundEvent(user, SoundEvents.RESPAWN_ANCHOR_DEPLETE, SoundSource.BLOCKS, blockPos.getX(), blockPos.getY(), blockPos.getZ(), 1.0f, 1.0f);
                     }
-                    return Optional.of(new TeleportPosition(Level.NETHER, new BlockPos(pos)));
+                    return Optional.of(new TeleportPosition(Level.NETHER, pos));
                 } else {
                     user.sendSystemMessage(Component.translatable("block.minecraft.spawn.not_valid"));
                 }
@@ -77,7 +77,7 @@ public class CharmItem extends Item {
             } else {
                 pos = ServerLevel.END_SPAWN_POINT;
             }
-            return Optional.of(new TeleportPosition(Level.END, pos));
+            return Optional.of(new TeleportPosition(Level.END, pos.getCenter()));
         });
     });
 
@@ -170,10 +170,10 @@ public class CharmItem extends Item {
                         }
                         player.awardStat(Stats.ITEM_USED.get(this), 1);
                         if (teleportPosition.isSameDimension(pLevel)) {
-                            BlockPos position = teleportPosition.position;
-                            double x = position.getX();
-                            double y = position.getY();
-                            double z = position.getZ();
+                            Vec3 position = teleportPosition.position;
+                            double x = position.x();
+                            double y = position.y();
+                            double z = position.z();
                             player.connection.teleport(x, y, z, player.getYRot(), player.getXRot());
                             if (broken) {
                                 player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.GLASS_BREAK), SoundSource.MASTER, x, y, z, 1.0f, 1.0f, player.getRandom().nextLong()));
@@ -181,7 +181,7 @@ public class CharmItem extends Item {
                             }
                             player.connection.send(new ClientboundSoundPacket(BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.ENDERMAN_TELEPORT), SoundSource.MASTER, x, y, z, 1.0f, 1.0f, player.getRandom().nextLong()));
                         } else {
-                            Services.PLATFORM_HELPER.teleportToDimension(player, serverLevel, new PortalInfo(Vec3.atCenterOf(teleportPosition.position), Vec3.ZERO, player.getYRot(), player.getXRot()));
+                            Services.PLATFORM_HELPER.teleportToDimension(player, serverLevel, new PortalInfo(teleportPosition.position, Vec3.ZERO, player.getYRot(), player.getXRot()));
                         }
                         return broken ? ItemStack.EMPTY : super.finishUsingItem(pStack, pLevel, pLivingEntity);
                     }
@@ -217,7 +217,7 @@ public class CharmItem extends Item {
         TELEPORT_FUNCTION_MAP.put(levelKey, function);
     }
 
-    public record TeleportPosition(ResourceKey<Level> levelKey, BlockPos position) {
+    public record TeleportPosition(ResourceKey<Level> levelKey, Vec3 position) {
         public boolean isSameDimension(Level level) {
             return this.levelKey.equals(level.dimension());
         }

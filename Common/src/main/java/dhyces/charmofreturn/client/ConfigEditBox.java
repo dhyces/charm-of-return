@@ -56,16 +56,14 @@ public class ConfigEditBox extends EditBox {
     }
 
     @Override
-    public void setFocus(boolean $$0) {
+    public void setFocused(boolean $$0) {
         if (this.isFocused() != $$0) {
             onFocusedChanged($$0);
         }
-        super.setFocus($$0);
+        super.setFocused($$0);
     }
 
-    @Override
     protected void onFocusedChanged(boolean isFocused) {
-        super.onFocusedChanged(isFocused);
         if (!isFocused) {
             callback.onFocusLost(this);
         }

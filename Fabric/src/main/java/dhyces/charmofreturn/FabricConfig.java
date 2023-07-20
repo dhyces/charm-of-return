@@ -26,7 +26,7 @@ public class FabricConfig {
                                 try {
                                     exp = new ExpressionBuilder(s).variable("x").build();
                                 } catch (UnknownFunctionOrVariableException e) {
-                                    return DataResult.error(e.getMessage());
+                                    return DataResult.error(e::getMessage);
                                 }
                                 return DataResult.success(Pair.of(s, exp));
                             },
@@ -101,11 +101,11 @@ public class FabricConfig {
     }
 
     public static FabricConfig readFromBuf(FriendlyByteBuf buf) {
-        return buf.readWithCodec(CODEC);
+        return buf.readJsonWithCodec(CODEC);
     }
 
     public static void writeToBuf(FriendlyByteBuf buf, FabricConfig config) {
-        buf.writeWithCodec(CODEC, config);
+        buf.writeJsonWithCodec(CODEC, config);
     }
 
     public void saveToFile(Gson gson, Path path) {
