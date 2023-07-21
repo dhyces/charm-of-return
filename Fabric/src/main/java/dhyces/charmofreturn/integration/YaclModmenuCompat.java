@@ -7,6 +7,7 @@ import dev.isxander.yacl3.api.controller.BooleanControllerBuilder;
 import dev.isxander.yacl3.api.controller.IntegerFieldControllerBuilder;
 import dev.isxander.yacl3.api.controller.StringControllerBuilder;
 import dhyces.charmofreturn.FabricCharmOfReturn;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.chat.Component;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
@@ -18,7 +19,7 @@ public class YaclModmenuCompat implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return screen -> create().generateScreen(screen);
+        return FabricLoader.getInstance().isModLoaded("yet_another_config_lib_v3") ? screen -> create().generateScreen(screen) : ModMenuApi.super.getModConfigScreenFactory();
     }
 
     private YetAnotherConfigLib create() {
