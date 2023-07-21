@@ -2,14 +2,14 @@ plugins {
     id 'java'
     id 'eclipse'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
 
 archivesBaseName = "${mod_name}-forge-${minecraft_version}"
 
 minecraft {
-    mappings channel: 'parchment', version: '2023.07.16-1.20.1'
+    mappings channel: 'parchment', version: "${parchment_version}-${minecraft_version}"
     
     if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
         // This location is hardcoded in Forge and can not be changed.
@@ -64,6 +64,10 @@ minecraft {
     }
 }
 
+configurations {
+    testCompileClasspath.extendsFrom(compileClasspath)
+}
+
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 repositories {
@@ -94,6 +98,7 @@ dependencies {
 
     // JEI compat
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-common:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}"))
 

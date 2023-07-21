@@ -10,7 +10,6 @@ minecraft {
     version(minecraft_version)
     runs {   
         if (project.hasProperty('common_runs_enabled') ? project.findProperty('common_runs_enabled').toBoolean() : true) {
-        
             server(project.hasProperty('common_server_run_name') ? project.findProperty('common_server_run_name') : 'vanilla_server') {
                 workingDirectory(this.file("run"))
             }
@@ -24,7 +23,7 @@ minecraft {
 sourceSets {
     main {
         resources {
-            srcDirs += [file("$rootDir/Common/src/main/generated")]
+            srcDirs += [file("src/main/generated")]
         }
     }
 }
@@ -35,7 +34,6 @@ dependencies {
 
     // JEI compat
     compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
 
     // YACL
     implementation("dev.isxander.yacl:yet-another-config-lib-common:${yacl_version}")
