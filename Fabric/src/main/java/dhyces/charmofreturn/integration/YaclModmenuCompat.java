@@ -117,7 +117,9 @@ public class YaclModmenuCompat implements ModMenuApi {
                                 .build()
                         )
                         .build()
-                ).build();
+                )
+                .save(FabricCharmOfReturn::saveConfig)
+                .build();
     }
 
     private String demoExpression(String rawExpression) {
