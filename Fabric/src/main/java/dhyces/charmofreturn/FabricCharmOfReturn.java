@@ -6,11 +6,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
+import dhyces.charmofreturn.networking.ConfigSyncPacket;
+import dhyces.charmofreturn.networking.FabricNetworking;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
@@ -38,17 +41,14 @@ public class FabricCharmOfReturn implements ModInitializer {
         setupConfig();
         Registry.register(BuiltInRegistries.ITEM, CharmOfReturn.id("charm_of_return"), Register.CHARM.get());
 
+        FabricNetworking.init();
+
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            FriendlyByteBuf buf = PacketByteBufs.create();
-            FabricConfig.writeToBuf(buf, config);
-            sender.sendPacket(CharmOfReturn.id("sync_config"), buf);
+            sender.sendPacket(new ConfigSyncPacket());
         });
 
-        ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
-            setupConfig();
-            FriendlyByteBuf buf = PacketByteBufs.create();
-            FabricConfig.writeToBuf(buf, config);
-            ServerPlayNetworking.getSender(player).sendPacket(CharmOfReturn.id("sync_config"), buf);
+        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
+            PlayerLookup.all(server).forEach(serverPlayer -> ServerPlayNetworking.send(serverPlayer, new ConfigSyncPacket()));
         });
 
         LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
