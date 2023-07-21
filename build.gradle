@@ -42,9 +42,23 @@ subprojects {
         }
 
         maven {
-            name = 'BlameJared Maven (CrT / Bookshelf)'
+            name = 'BlameJared Maven'
             url = 'https://maven.blamejared.com'
         }
+
+        maven {
+            name 'Xander Maven'
+            url 'https://maven.isxander.dev/releases'
+        }
+
+        maven {
+            name = "TerraformersMC"
+            url = "https://maven.terraformersmc.com/"
+        }
+    }
+
+    dependencies {
+        compileOnly('org.jetbrains:annotations:24.0.1')
     }
 
     tasks.withType(JavaCompile).configureEach {

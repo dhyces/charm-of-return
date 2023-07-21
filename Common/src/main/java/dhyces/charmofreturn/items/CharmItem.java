@@ -39,8 +39,8 @@ import java.util.*;
 public class CharmItem extends Item {
 
     private static final Map<ResourceKey<Level>, TeleportFunction> TELEPORT_FUNCTION_MAP = Util.make(new HashMap<>(), map -> {
-        map.put(Level.OVERWORLD, (stack, level, user) -> {
-            if (user.getRespawnDimension().equals(Level.OVERWORLD) && user.getRespawnPosition() != null) {
+        map.put(Level.OVERWORLD, (stack, level, user, isRespawnDimension) -> {
+            if (isRespawnDimension && user.getRespawnPosition() != null) {
                 Optional<Vec3> potentialBedPos = BedBlock.findStandUpPosition(user.getType(), level, user.getRespawnPosition(), Direction.NORTH, user.getYRot());
                 if (potentialBedPos.isPresent()) {
                     return Optional.of(new TeleportPosition(Level.OVERWORLD, potentialBedPos.get()));
@@ -51,9 +51,9 @@ public class CharmItem extends Item {
             BlockPos pos = level.getSharedSpawnPos();
             return Optional.of(new TeleportPosition(Level.OVERWORLD, pos.getCenter()));
         });
-        map.put(Level.NETHER, (stack, level, user) -> {
+        map.put(Level.NETHER, (stack, level, user, isRespawnDimension) -> {
             boolean usesCharge = Services.CONFIG_HELPER.isUseAnchorCharge();
-            if (user.getRespawnDimension().equals(Level.NETHER) && user.getRespawnPosition() != null && (!usesCharge || level.getBlockState(user.getRespawnPosition()).getValue(RespawnAnchorBlock.CHARGE) > 0)) {
+            if (isRespawnDimension && user.getRespawnPosition() != null && (!usesCharge || level.getBlockState(user.getRespawnPosition()).getValue(RespawnAnchorBlock.CHARGE) > 0)) {
                 BlockPos blockPos = user.getRespawnPosition();
                 Optional<Vec3> potentialAnchorPos = RespawnAnchorBlock.findStandUpPosition(user.getType(), level, blockPos);
                 if (potentialAnchorPos.isPresent()) {
@@ -70,9 +70,9 @@ public class CharmItem extends Item {
             }
             return Optional.empty();
         });
-        map.put(Level.END, (stack, level, user) -> {
+        map.put(Level.END, (stack, level, user, isRespawnDimension) -> {
             BlockPos pos;
-            if (user.getRespawnDimension().equals(Level.END)) {
+            if (isRespawnDimension && user.getRespawnPosition() != null) {
                 pos = user.getRespawnPosition();
             } else {
                 pos = ServerLevel.END_SPAWN_POINT;
@@ -156,7 +156,7 @@ public class CharmItem extends Item {
             if (exp >= xpToTake || player.getAbilities().instabuild) {
                 TeleportFunction function = TELEPORT_FUNCTION_MAP.get(pLevel.dimension());
                 if (function != null) {
-                    Optional<TeleportPosition> pos = function.onTeleport(pStack, serverLevel, player);
+                    Optional<TeleportPosition> pos = function.onTeleport(pStack, serverLevel, player, player.getRespawnDimension().equals(pLevel.dimension()));
                     if (pos.isPresent()) {
                         TeleportPosition teleportPosition = pos.get();
                         boolean broken = false;
@@ -224,6 +224,6 @@ public class CharmItem extends Item {
     }
 
     public interface TeleportFunction {
-        Optional<TeleportPosition> onTeleport(ItemStack stack, ServerLevel level, ServerPlayer user);
+        Optional<TeleportPosition> onTeleport(ItemStack stack, ServerLevel level, ServerPlayer user, boolean isRespawnDimension);
     }
 }

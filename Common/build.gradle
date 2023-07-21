@@ -31,8 +31,14 @@ sourceSets {
 
 dependencies {
     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation "net.objecthunter:exp4j:0.4.8"
+
+    // JEI compat
+    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    runtimeOnly("mezz.jei:jei-${minecraft_version}-common:${jei_version}")
+
+    // YACL
+    implementation("dev.isxander.yacl:yet-another-config-lib-common:${yacl_version}")
 }
 
 processResources {

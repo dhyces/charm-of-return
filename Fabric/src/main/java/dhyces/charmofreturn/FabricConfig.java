@@ -22,6 +22,10 @@ public class FabricConfig {
             instance.group(
                     Codec.STRING.comapFlatMap(
                             s -> {
+                                if (s.isBlank()) {
+                                    return DataResult.success(Pair.of("0", new ExpressionBuilder("0").build()));
+                                }
+
                                 Expression exp;
                                 try {
                                     exp = new ExpressionBuilder(s).variable("x").build();
@@ -72,6 +76,8 @@ public class FabricConfig {
             this.levelCostExpression = new ExpressionBuilder(levelCostStr).variable("x").build();
         } catch (UnknownFunctionOrVariableException e) {
             return;
+        } catch (IllegalArgumentException e) {
+            this.levelCostExpression = new ExpressionBuilder("0").build();
         }
         this.levelCostStr = levelCostStr;
     }

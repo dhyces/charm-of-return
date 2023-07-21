@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[44,)"
+loaderVersion="[46,)"
 license="MIT"
 issueTrackerURL="https://github.com/dhyces/charm-of-return/issues"
 [[mods]]
@@ -16,12 +16,12 @@ Magic mirror, but it's a charm. Return to spawn point!
 [[dependencies.charmofreturn]]
     modId="forge"
     mandatory=true
-    versionRange="[44,)"
+    versionRange="[46,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.charmofreturn]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.20)"
+    versionRange="[1.20,1.20.2)"
     ordering="NONE"
     side="BOTH"
