@@ -11,13 +11,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ForgeCharmOfReturnClient {
     public static void init(IEventBus bus) {
-//        ModLoadingContext.get()
-//                .registerExtensionPoint(
-//                        ConfigGuiHandler.ConfigGuiFactory.class,
-//                        () -> new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) ->
-//                                new ConfigScreen(screen)
-//                        )
-//                );
         bus.addListener(ForgeCharmOfReturnClient::addToTab);
         bus.addListener(ForgeCharmOfReturnClient::clientSetup);
     }
