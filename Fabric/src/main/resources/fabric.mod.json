@@ -48,7 +48,7 @@
     "suggests": {
       "modmenu": ">=7.0.0 <8",
       "yet_another_config_lib_v3": ">=3.0.3 <4",
-      "jei": ">=15.2.0.23 <16"
+      "jei": ">=14.0.0.0 <16"
     }
   }
   
