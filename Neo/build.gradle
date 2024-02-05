@@ -70,12 +70,12 @@ dependencies {
     forgeRuntimeLibrary("net.objecthunter:exp4j:0.4.8")
 	
 	// JEI compat
-    modCompileOnly(libs.jei.common)
-    modCompileOnly(libs.jei.neo)
-    modRuntimeOnly(libs.jei.neo.runtime)
+    compileOnly(libs.jei.common)
+    compileOnly(libs.jei.neo)
+    runtimeOnly(libs.jei.neo.runtime)
 
     // YACL
-    modImplementation(libs.yacl.neo)
+    implementation(libs.yacl.neo)
 
     compileOnly(project(path: ":Common", configuration: "namedElements"))
 }

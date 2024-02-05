@@ -42,7 +42,7 @@ dependencies {
 
     modCompileOnly libs.fabric.loader
 	
-	implementation "net.objecthunter:exp4j:0.4.8"
+	compileOnly("net.objecthunter:exp4j:0.4.8")
 
     // JEI compat
     modCompileOnly(libs.jei.common)
