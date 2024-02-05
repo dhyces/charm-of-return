@@ -65,8 +65,9 @@ ModsDotGroovy.make {
                     @Override
                     Map asForgeMap() {
                         def map = dep.asForgeMap()
+                        def mandatory = map.mandatory
                         map.remove('mandatory')
-                        map.put('type', this.mandatory ? 'required' : 'optional')
+                        map.put('type', mandatory ? 'required' : 'optional')
                         return map
                     }
                 }
