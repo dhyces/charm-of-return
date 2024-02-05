@@ -1,43 +1,16 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
-    id 'maven-publish'
     id 'idea'
+    id 'maven-publish'
+    alias(libs.plugins.archloom)
 }
 
-archivesBaseName = "${mod_name}-fabric-${minecraft_version}"
-
-repositories {
-    mavenCentral()
-    maven {
-        url = "https://maven.terraformersmc.com/"
-    }
-    maven { url 'https://jitpack.io' }
-}
-
-dependencies {
-    minecraft "com.mojang:minecraft:${minecraft_version}"
-    mappings loom.layered() {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${minecraft_version}:${parchment_version}@zip")
-    }
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-    // https://lallafa.objecthunter.net/exp4j/
-    include implementation("net.objecthunter:exp4j:0.4.8")
-    // https://github.com/TerraformersMC/ModMenu
-    modImplementation "com.terraformersmc:modmenu:${modmenu_version}"
-
-    // JEI compat
-    modCompileOnlyApi("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
-    modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
-
-    // YACL
-    modImplementation("dev.isxander.yacl:yet-another-config-lib-fabric:${yacl_version}")
-
-    implementation project(":Common")
+base {
+    archivesName = "${mod_name}-fabric-${libs.versions.minecraft.release.get()}"
 }
 
 loom {
+//    accessWidenerPath = project(":Common").file("src/main/resources/modid.accesswidener")
+
     runs {
         client {
             client()
@@ -51,10 +24,10 @@ loom {
             ideConfigGenerated(true)
             runDir("run")
         }
-        datagen {
+		datagen {
             server()
+			setConfigName("Fabric Data")
 
-            name "Minecraft Data"
             vmArg "-Dfabric-api.datagen"
             vmArg "-Dfabric-api.datagen.output-dir=${file("$rootDir/Common/src/main/generated")}"
 
@@ -63,14 +36,41 @@ loom {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven {
+        url = "https://maven.terraformersmc.com/"
+    }
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    minecraft libs.minecraft
+    mappings loom.layered() {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.release.get()}@zip")
+    }
+    modImplementation libs.fabric.loader
+    modImplementation libs.fabric.api
+	
+	// https://lallafa.objecthunter.net/exp4j/
+    include implementation("net.objecthunter:exp4j:0.4.8")
+    // https://github.com/TerraformersMC/ModMenu
+    modImplementation(libs.modmenu)
+
+    // JEI compat
+    modCompileOnlyApi(libs.jei.common)
+    modCompileOnlyApi(libs.jei.fabric)
+    modRuntimeOnly(libs.jei.fabric.runtime)
+
+    // YACL
+    modImplementation(libs.yacl.fabric)
+
+    implementation project(":Common")
+}
 
 processResources {
     from project(":Common").sourceSets.main.resources
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
 }
 
 tasks.withType(JavaCompile) {

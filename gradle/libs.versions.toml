@@ -1,0 +1,59 @@
+[versions]
+minecraft_release = "1.20.4"
+minecraft_range = "[1.20.4,1.21)"
+publish_range = "1.20.4"
+
+parchment_release = "2023.12.10"
+parchment_minecraft = "1.20.2"
+
+neoforge = "20.4.48-beta"
+
+fabric_loader = "0.15.6"
+fabric_api = "0.95.4+1.20.4"
+fabric_api_range = ">=0.95.4"
+
+jei = "17.3.0.48"
+jei_range = "[17.3.0.48,18)"
+yacl = "3.3.2+1.20.4"
+yacl_range = "[3.3.2,4)"
+
+modmenu = "9.0.0"
+modmenu_range = "[9.0.0,10)"
+
+mixinextras = "0.3.2"
+
+jetbrains_annotations = "24.0.0"
+
+mdg_release = "1.4.3"
+mdg_dsl = "1.5.1"
+archloom = "1.4.373"
+
+curseforgegradle = "1.1.18"
+minotaur = "2.+"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft_release" }
+jei_common = { module = "mezz.jei:jei-1.20.4-common-api", version.ref = "jei" }
+yacl_common = { module = "dev.isxander.yacl:yet-another-config-lib-common", version = "3.3.1+1.20.4" }
+
+neoforge = { module = "net.neoforged:neoforge", version.ref = "neoforge" }
+jei_neo = { module = "mezz.jei:jei-1.20.4-neoforge-api", version.ref = "jei" }
+jei_neo_runtime = { module = "mezz.jei:jei-1.20.4-neoforge", version.ref = "jei" }
+yacl_neo = { module = "dev.isxander.yacl:yet-another-config-lib-neoforge", version.ref = "yacl" }
+
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
+jei_fabric = { module = "mezz.jei:jei-1.20.4-fabric-api", version.ref = "jei" }
+jei_fabric_runtime = { module = "mezz.jei:jei-1.20.4-fabric", version.ref = "jei" }
+yacl_fabric = { module = "dev.isxander.yacl:yet-another-config-lib-fabric", version.ref = "yacl" }
+modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
+
+mixinextras_common = { module = "io.github.llamalad7:mixinextras-common", version.ref = "mixinextras" }
+
+jetbrains_annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains_annotations" }
+
+[plugins]
+mdg = { id = "org.groovymc.modsdotgroovy", version.ref = "mdg_release" }
+archloom = { id = "dev.architectury.loom", version.ref = "archloom" }
+curseforgegradle = { id = "net.darkhax.curseforgegradle", version.ref = "curseforgegradle" }
+minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
