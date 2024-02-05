@@ -65,8 +65,9 @@ dependencies {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${libs.versions.parchment.minecraft.get()}:${libs.versions.parchment.release.get()}@zip")
     }
-	
-    implementation("net.objecthunter:exp4j:0.4.8")
+
+    compileOnly("net.objecthunter:exp4j:0.4.8")
+    forgeRuntimeLibrary("net.objecthunter:exp4j:0.4.8")
 	
 	// JEI compat
     modCompileOnly(libs.jei.common)
